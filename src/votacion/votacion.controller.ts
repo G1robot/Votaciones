@@ -28,7 +28,7 @@ export class VotacionController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.votacionService.remove(+id);
+  remove(@Param() {id}) {
+    return this.votacionService.remove(id);
   }
 }

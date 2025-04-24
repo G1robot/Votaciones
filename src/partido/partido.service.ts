@@ -7,16 +7,29 @@ import { Repository } from 'typeorm';
 import { MongoRepository } from 'typeorm';
 import { ObjectId } from 'mongodb';
 import { NotFoundException } from '@nestjs/common';
+import { ResultadoEntity } from 'src/resultado/entities/resultado.entity';
 
 @Injectable()
 export class PartidoService {
   constructor(
     @InjectRepository(PartidoEntity)
-    private partidoRepository: MongoRepository <PartidoEntity>
+    private partidoRepository: MongoRepository <PartidoEntity>,
+
+    @InjectRepository(ResultadoEntity)
+    private resultadoRepository: MongoRepository<ResultadoEntity>,
   ) {}
 
   public async create(par) {
-    return await this.partidoRepository.save(par);
+    const partido = await this.partidoRepository.save(par);
+
+    const resultado = {
+      partidoId: partido.id,
+      votos: 0,
+    };
+
+    await this.resultadoRepository.save(resultado);
+
+    return partido;
   }
 
   findAll(): Promise<PartidoEntity[]> {

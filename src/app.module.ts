@@ -11,6 +11,7 @@ import { GaleriaModule } from './galeria/galeria.module';
 import { CronogramaModule } from './cronograma/cronograma.module';
 import { VotacionModule } from './votacion/votacion.module';
 import { AuthModule } from './auth/auth.module';
+import { ResultadoModule } from './resultado/resultado.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { AuthModule } from './auth/auth.module';
     GaleriaModule,
     CronogramaModule,
     VotacionModule,
-    AuthModule
+    AuthModule,
+    ResultadoModule
   ],
   controllers: [AppController],
   providers: [
