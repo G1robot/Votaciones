@@ -1,10 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { GaleriaService } from './galeria.service';
 import { CreateGaleriaDto } from './dto/create-galeria.dto';
 import { UpdateGaleriaDto } from './dto/update-galeria.dto';
 import { FileInterceptor, FilesInterceptor, FileFieldsInterceptor  } from '@nestjs/platform-express';
 import { diskStorage } from 'Multer';
 import { extname } from 'path';
+import { AuthGuard } from 'src/guard/auth.guard';
+import { RolesGuard } from 'src/guard/roles.guard';
+import { Roles } from 'src/decoradores/roles.decorator';
+
 @Controller('galeria')
 export class GaleriaController {
   constructor(private readonly galeriaService: GaleriaService) {}
@@ -31,6 +35,8 @@ export class GaleriaController {
     return this.galeriaService.create(categoria);
     }
 
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles('representante')
   @Get()
   findAll() {
     return this.galeriaService.findAll();

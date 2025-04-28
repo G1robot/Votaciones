@@ -9,25 +9,25 @@ import { Repository } from 'typeorm';
 export class PersonaService {
   constructor(
     @InjectRepository(PersonaEntity)
-    private clienteRepository: Repository <PersonaEntity>
+    private personaRepository: Repository <PersonaEntity>
   ) {}
   public async create(per) {
-    return await this.clienteRepository.save(per);
+    return await this.personaRepository.save(per);
   }
 
   findAll(): Promise<PersonaEntity[]> {
-    return this.clienteRepository.find();
+    return this.personaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} persona`;
+  public async find(ci:string) {
+    return await this.personaRepository.findOne({where:{ci:ci}});
   }
 
   public async update(id, per) {
-    return await this.clienteRepository.update(id, per);
+    return await this.personaRepository.update(id, per);
   }
 
   public async remove(id) {
-    return await this.clienteRepository.delete(id);
+    return await this.personaRepository.delete(id);
   }
 }
