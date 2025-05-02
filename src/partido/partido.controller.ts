@@ -44,8 +44,8 @@ export class PartidoController {
     return this.partidoService.create(body);
   }
 
-  @UseGuards(AuthGuard,RolesGuard)
-  @Roles('admin')
+  // @UseGuards(AuthGuard,RolesGuard)
+  // @Roles('admin')
   @Get()
   findAll() {
     return this.partidoService.findAll();

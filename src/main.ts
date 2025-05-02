@@ -6,10 +6,12 @@ import { join } from 'path';
 import { ResponseInterceptor } from './response/response.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './http-exception/http-exception.filter';
+import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useStaticAssets(join(__dirname, '..', 'uploads'));
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads'))); 
   app.enableCors();
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalPipes(new ValidationPipe({

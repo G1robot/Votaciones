@@ -15,8 +15,8 @@ export class ResultadoController {
     return this.resultadoService.create(createResultadoDto);
   }
 
-  @UseGuards(AuthGuard,RolesGuard)
-  @Roles('votante')
+  // @UseGuards(AuthGuard,RolesGuard)
+  // @Roles('votante')
   @Get()
   findAll() {
     return this.resultadoService.findAll();

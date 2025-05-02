@@ -35,8 +35,8 @@ export class GaleriaController {
     return this.galeriaService.create(categoria);
     }
 
-  @UseGuards(AuthGuard,RolesGuard)
-  @Roles('representante')
+  // @UseGuards(AuthGuard,RolesGuard)
+  // @Roles('representante')
   @Get()
   findAll() {
     return this.galeriaService.findAll();

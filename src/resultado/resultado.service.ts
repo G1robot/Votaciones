@@ -36,7 +36,7 @@ export class ResultadoService {
         const partido = await this.findPartido(resultado.partidoId);
         return {
           ...resultado,
-          partidoId: partido ? partido.nombre : null, // Replace partidoId with partido name
+          partidoId: partido ? partido.nombre : null,
         };
       }),
     );

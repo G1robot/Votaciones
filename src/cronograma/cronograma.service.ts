@@ -29,8 +29,17 @@ export class CronogramaService {
     });
   }
 
-  findAll(): Promise<CronogramaEntity[]> {
-    return this.cronogramaRepository.find();
+  async findAll() {
+    const cronogramas = await this.cronogramaRepository.find();
+    return await Promise.all(
+      cronogramas.map(async (cronograma) => {
+        const partido = await this.findById(cronograma.partidoId);
+        return {
+          ...cronograma,
+          partidoId: partido ? partido.nombre : null,
+        };
+      }),
+    );
   }
 
   findOne(id: number) {
@@ -38,6 +47,10 @@ export class CronogramaService {
   }
 
   public async update(id, cro) {
+    const partido = await this.findById(cro.partidoId);
+    if (!partido) {
+      throw new Error('Invalid partidoId: Partido not found');
+    }
     return await this.cronogramaRepository.update(id, cro);
   }
 

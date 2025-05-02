@@ -31,8 +31,17 @@ export class PropuestaService {
     });
   }
 
-  findAll(): Promise<PropuestaEntity[]> {
-    return this.propuestaRepository.find();
+  async findAll() {
+    const propuestas = await this.propuestaRepository.find();
+    return await Promise.all(
+      propuestas.map(async (propuesta) => {
+        const partido = await this.findById(propuesta.partidoId);
+        return {
+          ...propuesta,
+          partidoId: partido ? partido.nombre : null,
+        };
+      }),
+    );
   }
 
   findOne(id: number) {
