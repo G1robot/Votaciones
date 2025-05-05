@@ -42,6 +42,10 @@ export class CronogramaService {
     );
   }
 
+  public async find(partidoId: string) {
+    return await this.cronogramaRepository.find({ where: { partidoId: partidoId } });
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} cronograma`;
   }

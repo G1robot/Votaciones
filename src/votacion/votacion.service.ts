@@ -59,17 +59,17 @@ export class VotacionService {
   public async updateV(partidoId: string) {
     console.log(partidoId);
     const resultado = await this.resultadoRepository.findOne({
-      where: { partidoId: { $regex: partidoId, $options: 'i' } },
+      where: { partidoId: new ObjectId(partidoId) },
     });
-    console.log(resultado);
+    console.log(resultado?.id);
     const idresultado = resultado?.id;
     let suma = 0;
     if (resultado) {
       suma = resultado.votos + 1;
     }
     
-    await this.resultadoRepository.update(new ObjectId(idresultado), { votos: suma });
-  }
+    await this.resultadoRepository.update(new ObjectId(idresultado), { votos: suma });
+  }
 
   public async findPersona(id: string): Promise<PersonaEntity | null> {
     return await this.personaRepository.findOne({
@@ -100,13 +100,7 @@ export class VotacionService {
     return groupedByPartido;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} votacion`;
-  }
 
-  public async update(id: number, updateVotacionDto: UpdateVotacionDto) {
-    return `This action updates a #${id} votacion`;
-  }
 
   public async remove(id) {
     return await this.votacionRepository.delete(id);

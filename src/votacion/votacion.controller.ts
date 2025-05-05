@@ -1,15 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { VotacionService } from './votacion.service';
 import { CreateVotacionDto } from './dto/create-votacion.dto';
 import { UpdateVotacionDto } from './dto/update-votacion.dto';
+import { AuthGuard } from 'src/guard/auth.guard';
+import { Request } from 'express';
 
 @Controller('votacion')
+@UseGuards(AuthGuard)
 export class VotacionController {
   constructor(private readonly votacionService: VotacionService) {}
 
   @Post()
-  create(@Body() createVotacionDto: CreateVotacionDto) {
-    return this.votacionService.create(createVotacionDto);
+  create(@Body() createVotacionDto: CreateVotacionDto, @Req() request) {
+    const userId = request.user.id;
+    return this.votacionService.create({ ...createVotacionDto, personaId: userId });
   }
 
   @Get()
@@ -17,15 +21,6 @@ export class VotacionController {
     return this.votacionService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.votacionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVotacionDto: UpdateVotacionDto) {
-    return this.votacionService.update(+id, updateVotacionDto);
-  }
 
   @Delete(':id')
   remove(@Param() {id}) {

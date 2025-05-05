@@ -17,9 +17,9 @@ export class CronogramaController {
     return this.cronogramaService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cronogramaService.findOne(+id);
+  @Get(':partidoId')
+  findOne(@Param('partidoId') partidoId: string) {
+    return this.cronogramaService.find(partidoId);
   }
 
   @Patch(':id')

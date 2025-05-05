@@ -13,8 +13,6 @@ export class CreatePersonaDto {
     @IsDate({ message: 'La fecha de nacimiento debe ser un date' })
     fechaNacimiento: Date;
 
-    @IsEmail({}, { message: 'El email debe ser una cadena de caracteres' })
-    email: string;
 
     @IsString({ message: 'El rol debe ser una cadena de caracteres' })
     @Length(1, 20, { message: 'El rol debe tener entre 1 y 20 caracteres' })

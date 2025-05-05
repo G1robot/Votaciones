@@ -17,10 +17,11 @@ export class PropuestaController {
     return this.propuestaService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.propuestaService.findOne(+id);
+  @Get(':partidoId')
+  findOne(@Param('partidoId') partidoId: string) {
+    return this.propuestaService.find(partidoId);
   }
+
 
   @Patch(':id')
   update(@Param() {id}, @Body() updatePropuestaDto: CreatePropuestaDto) {
