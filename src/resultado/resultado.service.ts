@@ -6,6 +6,8 @@ import { ResultadoEntity } from './entities/resultado.entity';
 import { MongoRepository, Repository } from 'typeorm';
 import { PartidoEntity } from 'src/partido/entities/partido.entity';
 import { ObjectId } from 'mongodb';
+import { ResultadoGateway } from './resultado.gateway';
+import { Socket } from 'src/shared/socket';
 
 @Injectable()
 export class ResultadoService {
@@ -15,13 +17,18 @@ export class ResultadoService {
 
     @InjectRepository(PartidoEntity)
     private readonly partidoRepository: MongoRepository<PartidoEntity>,
+    private socket: Socket
   ) {}
   public async create(resultado) {
     const partido = await this.findPartido(resultado.partidoId);
     if (!partido) {
       throw new Error('Invalid partidoId: Partido not found');
     }
-    return await this.resultadoRepository.save(resultado);
+
+    const resultadoGuardado = await this.resultadoRepository.save(resultado);
+    this.socket.updateProduct();
+
+    return resultadoGuardado;
   }
   public async findPartido(id: string): Promise<PartidoEntity | null> {
     return await this.partidoRepository.findOne({
@@ -57,7 +64,9 @@ export class ResultadoService {
       suma = resultado.votos + 1;
     }
     
-    return await this.resultadoRepository.update(new ObjectId(id), { votos: suma });
+    const up = await this.resultadoRepository.update(new ObjectId(id), { votos: suma });
+    this.socket.updateProduct();
+    return up;
   }
   
 

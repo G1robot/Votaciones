@@ -8,6 +8,7 @@ import { MongoRepository, Repository } from 'typeorm';
 import { PersonaEntity } from 'src/persona/entities/persona.entity';
 import { ObjectId } from 'mongodb';
 import { ResultadoEntity } from 'src/resultado/entities/resultado.entity';
+import { Socket } from 'src/shared/socket';
 
 @Injectable()
 export class VotacionService {
@@ -23,6 +24,7 @@ export class VotacionService {
 
     @InjectRepository(ResultadoEntity)
     private readonly resultadoRepository: MongoRepository <ResultadoEntity>,
+    private socket: Socket
   ) {}
   public async create(voto) {
     const partido = await this.findPartido(voto.partidoId);
@@ -69,6 +71,7 @@ export class VotacionService {
     }
     
     await this.resultadoRepository.update(new ObjectId(idresultado), { votos: suma });
+    this.socket.updateProduct();
   }
 
   public async findPersona(id: string): Promise<PersonaEntity | null> {

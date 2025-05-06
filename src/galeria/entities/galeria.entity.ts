@@ -1,13 +1,16 @@
 import { Column, Entity, ObjectId, ObjectIdColumn } from "typeorm";
 
-@Entity({name: 'persona'})
+@Entity({name: 'galeria'})
 export class GaleriaEntity {
     @ObjectIdColumn()
     id: ObjectId;
     
     @Column()
-    imagen: string;
+    foto: string;
 
     @Column()
     descripcion: string;
+
+    @Column()
+    partidoId: string;
 }

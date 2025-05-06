@@ -29,23 +29,22 @@ export class GaleriaController {
     ) {
     const categoria = {
         ...body,
-        foto: file.filename, // Guardamos el nombre de la imagen en la entidad
+        foto: file.filename,
     };
 
     return this.galeriaService.create(categoria);
     }
 
-  // @UseGuards(AuthGuard,RolesGuard)
-  // @Roles('representante')
   @Get()
   findAll() {
     return this.galeriaService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.galeriaService.findOne(+id);
+  @Get(':partidoId')
+  findOne(@Param('partidoId') partidoId: string) {
+    return this.galeriaService.find(partidoId);
   }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateGaleriaDto: UpdateGaleriaDto) {
@@ -53,7 +52,7 @@ export class GaleriaController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.galeriaService.remove(+id);
+  remove(@Param() {id}) {
+    return this.galeriaService.remove(id);
   }
 }
